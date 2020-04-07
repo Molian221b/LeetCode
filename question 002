@@ -1,0 +1,25 @@
+class Solution:
+    def rotate(self, matrix):
+        a = 0
+        b = 0
+        length = len(matrix)
+        for row in range(length//2):
+            for column in range(-(-length//2)):
+                a = matrix[column][length-1-row]
+                matrix[column][length-1-row] = matrix[row][column]
+                b = matrix[length-1-row][length-1-column]
+                matrix[length-1-row][length-1-column] = a
+                a = matrix[length-1-column][row]
+                matrix[length-1-column][row] = b
+                matrix[row][column] = a
+
+#这题实际上可以采用上下换行在转置的取巧做法，但还是想走[直线]去解题
+
+#答案，原来除了a,b=b,a还可以a,b,c,d=d,c,b,a ...
+# class Solution:
+#     def rotate(self, matrix: List[List[int]]) -> None:
+#         n = len(matrix)
+#         for i in range(n // 2):
+#             for j in range((n + 1) // 2):
+#                 matrix[i][j], matrix[n - j - 1][i], matrix[n - i - 1][n - j - 1], matrix[j][n - i - 1] \
+#                     = matrix[n - j - 1][i], matrix[n - i - 1][n - j - 1], matrix[j][n - i - 1], matrix[i][j]
