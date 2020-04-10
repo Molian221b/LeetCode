@@ -1,0 +1,52 @@
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        length = len(nums)
+        if length < 3:
+            return None
+        nums.sort()
+        final_sum = float("inf")
+        for i in range(length - 2):
+            if (i > 0 and nums[0] >= target):
+                break
+            if (i > 0 and nums[i] == nums[i-1]):
+                continue
+            count1, count2 = i+1, length-1
+
+            while count1 < count2:
+                sum = nums[i] + nums[count1] + nums[count2]
+                if sum - target == 0:
+                    return target  #这里如果写成 final_sum = target 会增加大量计算时间，原因是下面的依然要判断
+                if abs(sum - target) < abs(final_sum - target):
+                    final_sum = sum
+                elif sum - target < 0:
+                    count1 += 1
+                else:
+                    count2 -= 1
+
+        return final_sum
+
+#参考
+# class Solution:
+#     def threeSumClosest(self, nums: List[int], target: int) -> int:
+#         n=len(nums)
+#         if(not nums or n<3):
+#             return None
+#         nums.sort()
+#         res=float("inf")
+#         for i in range(n):
+#             if(i>0 and nums[i]==nums[i-1]):
+#                 continue
+#             L=i+1
+#             R=n-1
+#             while(L<R):
+#                 cur_sum=nums[i]+nums[L]+nums[R]
+                
+#                 if(cur_sum==target):
+#                     return target
+#                 if(abs(cur_sum-target)<abs(res-target)):
+#                     res=cur_sum
+#                 if(cur_sum-target<0):
+#                     L+=1
+#                 else:
+#                     R-=1
+#         return res
