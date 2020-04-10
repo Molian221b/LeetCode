@@ -1,0 +1,32 @@
+# 看了会解题还有很多更好的解法，没有深究
+
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        length = len(nums)
+        if length < 4:
+            return []
+        nums.sort()
+        final_list = []
+        for i in range(length - 3):
+            if i > 0 and (length - i) > 2  and nums[i] == nums[i - 1]:
+                continue 
+            for j in range(i+1, length - 2):
+                if (length - j) > 1  and nums[j] == nums[j - 1] and j - i > 1:
+                    continue
+                count1, count2 = j + 1, length - 1
+                while (count1 < count2):
+                    sum = nums[i] + nums[j] + nums[count1] + nums[count2]
+                    if sum == target:
+                        final_list.append([nums[i], nums[j], nums[count1], nums[count2]])
+                        while nums[count1 + 1] == nums[count1] and count1 + 1 < count2:
+                            count1 += 1
+                        while nums[count2 - 1] == nums[count2] and count2 - 1 > count1:
+                            count2 -= 1
+                        count1 += 1
+                        count2 -= 1
+                    elif sum < target:
+                        count1 += 1
+                    else:
+                        count2 -= 1
+        return final_list
+        
