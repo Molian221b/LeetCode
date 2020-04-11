@@ -1,0 +1,12 @@
+# 检验len(nums)是否小于加数长度，range()可以规避这个问题，比如for i in range(-5)不会返回任何东西，不是None，就是什么都没有
+# 数组排序，为了实现双指针移动
+# 创建一个空数组final_list=[]来储存最终结果
+# 如果i>0 and nums[i] == nums[i-1], 跳过，为了防止[111,2,3,4,5]这种情况
+# for i in range(length - x)  为了保证数组在长度范围内
+# count1, count2 = i+1, length-1
+# while count1 < count2
+# if sum == target return target  这里不要final_num = target 直接return 可以跳过后面判断从而减少大量计算
+  如果这里是 final_list[].append(), 那么后面还要 count1 += 1, count2 -= 1 还可以简化，比如判断重复再进一位，但没必要太复杂了
+# if sum < target count2 -= 1 
+# if sum > target count1 += 1
+# return final_sum or final_list
