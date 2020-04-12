@@ -1,0 +1,24 @@
+import collections
+
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        
+        dic = collections.defaultdict(int)
+        final_num = 0
+
+        for a in A:
+            for b in B:
+                dic[a+b] += 1
+        for c in C:
+            for d in D:
+                final_num += dic[-(c+d)]
+
+        return final_num
+       
+# 大神解法，没深究       
+# import collections
+# class Solution:
+#     def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+#         dic = collections.Counter(a + b for a in A for b in B)
+#         return sum(dic.get(- c - d, 0) for c in C for d in D)
+
