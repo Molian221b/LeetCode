@@ -1,0 +1,15 @@
+# 斐波那契
+import random
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+        if n > 2:
+            stair = [0] * (n+1)
+            stair[1] = 1
+            stair[2] = 2
+            for i in range(3, n+1):
+                stair[i] = stair[i-1] + stair[i-2]
+        return stair[n]
