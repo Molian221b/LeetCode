@@ -1,0 +1,31 @@
+class ListNode():
+    def __init__(self, val):
+        if isinstance(val,int):
+            self.val = val
+            self.next = None
+            
+        elif isinstance(val,list):
+            self.val = val[0]
+            self.next = None
+            cur = self
+            for i in val[1:]:
+                cur.next = ListNode(i)
+                cur = cur.next
+    
+    def gatherAttrs(self):
+        return ", ".join("{}: {}".format(k, getattr(self, k)) for k in self.__dict__.keys())
+
+    def __str__(self):
+            return self.__class__.__name__+" {"+"{}".format(self.gatherAttrs())+"}"
+
+#不过就算我们定义了这个类，在本地调试的过程中，我们传参的形式还是list。但是在leetcode提交代码并不是，而是应该官方通过接口将我们传入的[1,2,3]list形式参数转化成了ListNode了。
+所以我们还要在本地测试之前添加判断参数形式的代码
+
+if isinstance(l1,list):
+            l1 = ListNode(l1)
+            l2 = ListNode(l2)
+
+作者：boywithacoin_cn
+链接：https://leetcode-cn.com/problems/add-two-numbers/solution/python3ti-jie-fang-leetcodeguan-fang-lei-listnoded/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
