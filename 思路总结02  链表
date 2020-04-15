@@ -1,0 +1,3 @@
+#定义一个节点类Node，其中有属性self.value = value, self.next = None
+#这里有两种方法，一种是定义一个链表类Linked,然后定义属性self.head = head, self.current = head, self.next = None
+                另一种是直接修改Node类里的__str__(self)魔术方法,效果是创建对象后会运行__str__(self)里的内容
