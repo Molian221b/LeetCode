@@ -8,8 +8,7 @@ class Solution:
                     continue
                 else:
                     return [i,nums.index(a)]
-
-# 大神解法，利用字典，暂不深究
+# 字典
 # class Solution:
 #     def twoSum(self, nums: List[int], target: int) -> List[int]:
 #         hashmap = {}
