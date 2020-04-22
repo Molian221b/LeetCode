@@ -5,6 +5,7 @@ class Solution:
         max_num = 0
         if length < 2:
             return 0
+        # dp[i]为第i个元素右边的最大值（不包含i）
         dp = [0] * len(prices)
         # 注意，for i in range(0,0,-1)并不会返回i,而是什么都不返回，对，就是什么都没有
         for i in range(length-2,-1,-1):
