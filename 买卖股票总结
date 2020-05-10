@@ -21,7 +21,8 @@ class Solution:
 
         return max(dp[length-1][0][0],dp[length-1][0][1])
 
-第二题： 自己写的dp，leetcode显示超时，目前认为算法本身没问题，时间复杂度为O(kn),只是贪心算法实在太好了，时间复杂度为O(n)
+第二题： 自己写的dp，leetcode显示超时，目前认为算法本身没问题，时间复杂度为O(kn),只是贪心算法实在太好了，时间复杂度为O(n)，
+后面尝试去除卖出次数后已解决
 # dp[天数][购买状态][卖出次数]
 # class Solution:
 #     def maxProfit(self, prices: List[int]) -> int:
@@ -51,6 +52,27 @@ class Solution:
 #                     dp[i][1][k] = max(dp[i-1][1][k], dp[i-1][0][k] - prices[i])
 #                 max_num = max(max_num, dp[i][0][k], dp[i][1][k])
 #         return max_num
+
+# 去除卖出次数
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        length = len(prices)
+        if length < 2:
+            return 0
+
+
+        dp = [[0 for j in range(2)] for k in range(length)]
+
+        dp[0][0] = 0
+        dp[0][1] = -prices[0]
+
+        max_num = float("-inf")
+        for i in range(1,length):
+            dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+            dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
+            max_num = max(max_num, dp[i][0])
+
+        return max_num
 
 第三题：
 class Solution:
@@ -174,7 +196,7 @@ class Solution:
             dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
             dp[i][1] = max(dp[i-1][1], dp[i-2][0] - prices[i])
             
-            max_profit = max(max_profit, dp[i][0], dp[i][1])
+            max_profit = max(max_profit, dp[i][0])
 
         return max_profit
       
