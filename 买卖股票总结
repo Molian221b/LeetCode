@@ -20,7 +20,7 @@ class Solution:
 
         return max(dp[length-1][0][0],dp[length-1][0][1])
 
-第二题： 自己写的dp，leetcode显示超时，待优化
+第二题： 自己写的dp，leetcode显示超时，目前认为算法本身没问题，时间复杂度为O(kn),只是贪心算法实在太好了，时间复杂度为O(n)
 # dp[天数][购买状态][卖出次数]
 # class Solution:
 #     def maxProfit(self, prices: List[int]) -> int:
@@ -80,35 +80,43 @@ class Solution:
                 max_num = max(max_num, dp[i][0][k], dp[i][1][k])
         return max_num
 
-第四题：还是同样框架，提示超时，待优化
+第四题：之前显示超时是因为没有添加k>length//2的判断，比如如果k设置为10000000,会进行大量重复计算
 class Solution:
     def maxProfit(self, k: int, prices: List[int]) -> int:
         length = len(prices)
         if length < 2:
             return 0
-        
-        count = k+1
-        dp = [[[0 for i in range(count)] for j in range(2)] for k in range(length)]
-        
-        dp[0][0][0] = 0
-        dp[0][1][0] = -prices[0]
 
-        for k in range(1, count):
-            dp[0][0][k] = float("-inf") 
-            dp[0][1][k] = float("-inf")
+        if k > length//2:
+            max_profit = 0
+            for i in range(1,length):
+                diff =  prices[i] - prices[i-1]
+                if diff > 0:
+                    max_profit += diff
+            return max_profit
 
-        max_num = float("-inf")
-        for i in range(1, length):
-            for k in range(count):
-                if k == 0:
-                    dp[i][0][k] = dp[i-1][0][k]
-                    dp[i][1][k] = max(dp[i-1][1][k], dp[i-1][0][k] - prices[i])
-                else:
-                    dp[i][0][k] = max(dp[i-1][0][k], dp[i-1][1][k-1] + prices[i]) 
-                    dp[i][1][k] = max(dp[i-1][1][k], dp[i-1][0][k] - prices[i])
-                max_num = max(max_num, dp[i][0][k], dp[i][1][k])
+        else:
+            count = k+1
+            dp = [[[0 for z in range(count)] for y in range(2)] for x in range(length)]
+            # dp[第几天][买卖状态][卖出次数]
 
-        return max_num
+            dp[0][1][0] = -prices[0]
+            dp[0][0][0] = 0
+            for i in range(1,count):
+                dp[0][0][i] = float("-inf")
+                dp[0][1][i] = float("-inf")
+
+            max_profit = float("-inf")
+            for i in range(1, length):
+                for j in range(count):
+                    if j == 0:
+                        dp[i][0][j] = dp[i-1][0][j]
+                    else:
+                        dp[i][0][j] = max(dp[i-1][0][j], dp[i-1][1][j-1] + prices[i])
+                    dp[i][1][j] = max(dp[i-1][1][j], dp[i-1][0][j] - prices[i])
+                    max_profit = max(max_profit, dp[i][0][j], dp[i][1][j])
+
+            return max_profit
         
 受启发很大：
 https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/solution/tong-su-yi-dong-de-dong-tai-gui-hua-jie-fa-by-marc/
