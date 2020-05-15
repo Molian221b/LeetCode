@@ -1,0 +1,61 @@
+# 两种改进各有优劣
+# 改进1
+class Solution:
+    def reverse(self, x: int) -> int:
+        final_num = 0
+        temp = abs(x)
+        limit = (1<<31)-1 if x>0 else 1<<31
+
+        while temp != 0:
+            final_num = 10*final_num + temp%10
+            if final_num > limit:
+                return 0
+            temp = temp//10
+
+        return final_num if x>0 else -final_num
+
+# 改进2
+class Solution:
+    def reverse(self, x: int) -> int:
+        final_num = 0
+        temp = abs(x)
+
+        while temp != 0:
+            final_num = 10*final_num + temp%10
+            temp = temp//10
+
+        # if final_num > 2147483647 or final_num < -2147483648:
+        if final_num > (1<<31)-1 or final_num < -(1<<31):
+            return 0
+
+        return final_num if x>0 else -final_num
+
+# 第一次写法，上面的是改良版
+class Solution:
+    def reverse(self, x: int) -> int:
+        final_num = 0
+        head = 0
+        if x > 0:
+            while x // 10 != 0:
+                head = x%10
+                final_num = 10*final_num + head
+                x = x//10
+            final_num = 10*final_num + x
+        elif x < 0:
+            while -x // 10 != 0:
+                head = -x%10
+                final_num = 10*final_num + head
+                x = -(-x//10)
+            final_num = -(10*final_num + (-x))
+
+        # if final_num > 2147483647 or final_num < -2147483648:
+        if final_num > (1<<31)-1 or final_num < -(1<<31):
+        # 注意，加减优先级高于位运算
+            return 0
+        else:
+            return final_num
+
+
+# 位运算>>有个需要注意的地方,比如-3>>2,写成二进制1...011>>1 结果并不是1...01（-1）,而是1...010(-2)
+# 但3>>2,写成二进制0...011>>1 结果就是1...01（1）
+# 猜测是为了满足 地板除// 的运算（也就是a>>1 == a//2,不论a正负）（-3//2 = -2），-2>>1（1...10>>1）就不会存在这种问题，结果就是-1
