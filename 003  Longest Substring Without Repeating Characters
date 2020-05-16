@@ -1,5 +1,19 @@
 # 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
-
+# 答案的双指针，非常巧妙，注意下标
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        vessel = set()
+        length = len(s)
+        max_count = 0
+        right = -1
+        for left in range(length):
+            if left != 0:                
+                vessel.remove(s[left-1])
+            while right+1 < length and s[right+1] not in vessel:
+                vessel.add(s[right+1])
+                right += 1
+            max_count = max(max_count, right-left+1)
+        return max_count
 
 # 自己写的，效率很低
 class Solution:
