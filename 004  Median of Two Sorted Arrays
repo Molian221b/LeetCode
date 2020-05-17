@@ -1,0 +1,16 @@
+# 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。
+请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+你可以假设 nums1 和 nums2 不会同时为空。
+
+# 最长想到的方法，但时间复杂度为O(m+n)
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        nums3 = nums1 + nums2
+        nums3.sort()
+        length = len(nums3)
+        if length%2 == 0:
+            return (nums3[length//2-1]+nums3[length//2])/2
+        else:
+            return nums3[length//2]
+
+# 
