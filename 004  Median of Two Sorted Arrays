@@ -2,7 +2,9 @@
 请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
 你可以假设 nums1 和 nums2 不会同时为空。
 
-# 最常想到的方法，但时间复杂度为O(m+n)，虽然能通过，但其实并不满足题意
+# 最常想到的方法，时间复杂度好像为O((m+n)log(m+n))，具体要看sort()排序的时间复杂度，
+# 可参考（https://blog.csdn.net/yangzhongblog/article/details/8184707），
+#虽然能通过，但其实并不满足题意
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         nums3 = nums1 + nums2
