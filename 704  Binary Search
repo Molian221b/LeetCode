@@ -22,17 +22,63 @@ class Solution:
         else:
             return -1
 
-# 非递归模板
+
+# 递归
+# 写法一，注意方法位置
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+
+        length = len(nums)
+        if length < 1:
+            return -1
+
+        left = 0
+        right = length - 1
+
+        return self.bin_fun(nums, target, left, right)    
+        
+    def bin_fun(self, nums, target, left, right):
+        if left == right:
+            if nums[left] == target:
+                return left
+            else:
+                return -1
+        mid = (left+right)>>1
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] > target:
+            right = mid
+            return self.bin_fun(nums, target, left, right)
+        else:
+            left = mid + 1
+            return self.bin_fun(nums, target, left, right)
+
+# 写法二，注意方法位置
 # class Solution:
 #     def search(self, nums: List[int], target: int) -> int:
-#         l,r=0,len(nums)-1
-#         while l<r:
-#             m=(l+r)>>1
-#             if target>nums[m]:
-#                 l=m+1
-#             else:
-#                 r=m
-#         if nums[l]==target:
-#             return l
-#         else:
+
+#         length = len(nums)
+#         if length < 1:
 #             return -1
+
+#         left = 0
+#         right = length - 1
+
+#         def bin_fun(left, right):
+#             if left == right:
+#                 if nums[left] == target:
+#                     return left
+#                 else:
+#                     return -1
+#             mid = (left+right)>>1
+#             if nums[mid] == target:
+#                 return mid
+#             elif nums[mid] > target:
+#                 right = mid
+#                 return bin_fun(left, right)
+#             else:
+#                 left = mid + 1
+#                 return bin_fun(left, right)
+
+#         return bin_fun(left, right)
+
