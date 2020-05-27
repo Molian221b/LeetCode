@@ -7,7 +7,7 @@ class Solution:
         left = 0
         right = len(nums) - 1
 
-        while left < right:
+        while left <= right:
             # 等价于 mid = (left+right)//2
             mid = (left+right) >> 1
             if nums[mid] == target:
@@ -16,11 +16,8 @@ class Solution:
                 left = mid + 1
             else: 
                 right = mid - 1
-            
-        if nums[left] == target:
-            return left
-        else:
-            return -1
+                
+        return -1
 
 # 递归
 # 写法一，注意方法位置
