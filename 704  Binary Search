@@ -8,7 +8,8 @@ class Solution:
         right = len(nums) - 1
 
         while left <= right:
-            # 等价于 mid = (left+right)//2
+            # 等价于 mid = (left+right)//2  
+            # 注意：(left+right)//2 和 len(nums)//2不同的
             mid = (left+right) >> 1
             if nums[mid] == target:
                 return mid
