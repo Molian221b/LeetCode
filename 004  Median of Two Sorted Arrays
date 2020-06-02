@@ -18,6 +18,8 @@ class Solution:
 # 理解这种方法的关键在于明白数组nums1,nums2的中位数不可能同时出现在nums3(nums1,nums2合并后数组)的中位数同一边
 # 参考(https://www.youtube.com/watch?v=ScCg9v921ns)11:18的图
 
+
+#参考答案，暂没弄懂他的下标思路
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
 
@@ -56,3 +58,59 @@ class Solution:
 
         return (max_of_left + min_of_right) / 2
 
+# 自己写的，击败96%
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        len1, len2 = len(nums1), len(nums2)
+        # 首先要明白mid,left,right都是下标，而half_len是长度，所以如果len1>len2的话很可能出现half_len-mid为负数的情况
+        # 因此要换位让短的数组进行二分，同时也能降低时间复杂度
+        if len1 > len2:
+            nums1, nums2 = nums2, nums1
+            len1, len2 = len2, len1
+
+        left = 0
+        right = len1-1
+        half_len = (len1+len2+1)//2
+        # half_len是奇数过半界的，比如3个取到2，但4个也还是取到2，也就是说偶数没影响
+
+        mid1 = (left+right)//2  # mid1没过半界，比如0,2定位到中间的1，比如0,3还是定位到1（0，1，2，3 的第二个位置）
+        mid2 = half_len - mid1 - 2 # mid1，mid2均为具体坐标，mid2数组的长度是过半界的
+        # 由于有两个列表所以有两个[0]，所以half_len = mid1+mid2+2，如果两个列表都不为空的话
+        while left <= right:
+        # 重点理解这里思路，为什么不能left<=right，因为nums1=[]时，left=0,right=-1,mid1=-1，所以nums1[mid1]是没有意义的
+        # 同理，nums1=[1],nums2=[3]这种情况时，left=0,right=0,可是mid2=-1，nums2[mid2]没有意义，所以要去掉等号避免进入这个循环
+            if nums1[mid1] > nums2[mid2+1]:
+                right = mid1 - 1
+            else:  # 这里需要重点理解
+                left = mid1 + 1
+            mid1 = (left+right)//2
+            mid2 = half_len - mid1 - 2
+
+        # mid == -1 的意思是mid对应的这个数组每个元素都比中位数大
+        if mid1 == -1:  # 代表nums1没有参与进来，比如nums1=[],又比如nums1=[100],nums2=[1,2,3]
+            max_left = nums2[mid2]
+        elif mid2 == -1: # 当 len1==len2，且所有mid2大于mid1时
+        # 重点理解2,要达成这种情况说明len1 >= len2,但一开始限定len1 <= len2,所以说明只有len1==len2才能满足这种情况
+            max_left = nums1[mid1]
+        else:
+            max_left = max(nums1[mid1],nums2[mid2])
+
+        if (len1+len2)%2 != 0:  # 总长为奇数
+            return max_left
+
+        # 虽然没有else，但下面已经开始偶数判断了
+        if mid1 == -1:
+            if len1 == 0:
+                min_right = nums2[mid2+1]
+            elif len1 == len2:
+                min_right = nums1[0]
+            elif len1 < len2:
+                min_right = min(nums1[0], nums2[mid2+1])
+        elif mid2 == -1:
+            min_right = nums2[0]
+        else:
+            if mid1+1 <= len1-1:
+                min_right = min(nums1[mid1+1],nums2[mid2+1])
+            else:
+                min_right = nums2[mid2+1]
+        return (max_left+min_right)/2
