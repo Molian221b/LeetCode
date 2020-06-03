@@ -28,7 +28,9 @@ class Solution:
         len1, len2 = len(nums1), len(nums2)
         
         left, right, half_len = 0, len1, (len1 + len2 + 1) // 2
-        mid1 = (left + right) // 2
+        #这里的right,mid1,mid2与我自己的定义不同，指的是长度，比如[0,1,2,3],right=4,mid1=2,是指左半边长度为2
+        #又比如[0,1,2],right=3,mid1=1,说明这个长度未过半界
+        mid1 = (left + right) // 2   
         mid2 = half_len - mid1
         
         while left < right:
@@ -36,7 +38,7 @@ class Solution:
                 left = mid1 + 1
             else:
                 right = mid1
-            mid1 = (left + right) // 2
+            mid1 = (left + right) // 2 
             mid2 = half_len - mid1
         
         if mid1 == 0: 
