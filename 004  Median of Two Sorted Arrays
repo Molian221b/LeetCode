@@ -99,20 +99,30 @@ class Solution:
 
         if (len1+len2)%2 != 0:  # 总长为奇数
             return max_left
-
+        # 下面的写法是自己的，与参考答案思路相反，非常难理解
         # 虽然没有else，但下面已经开始偶数判断了
-        if mid1 == -1:
-            if len1 == 0:
-                min_right = nums2[mid2+1]
-            elif len1 == len2:
-                min_right = nums1[0]
-            elif len1 < len2:
-                min_right = min(nums1[0], nums2[mid2+1])
-        elif mid2 == -1:
-            min_right = nums2[0]
+        # if mid1 == -1: # 表示nums1没有参与进来
+        #     if len1 == 0: # nums1 == []的情况，也就是nums1在nums2前,实际上等价于nums1全参与了进来只不过长度为0并且放在了最前面，
+        #                   # 这也是为什么这段代码等价于下段，一个是考虑哪个没参与进来，一个是考虑哪个全参与了进来
+        #         min_right = nums2[mid2+1]
+        #     elif len1 == len2: # 因为这种情况下nums2没有mid2+1的位置，也就是nums1正好在nums2后面
+        #         min_right = nums1[0]
+        #     elif len1 < len2:
+        #         min_right = min(nums1[0], nums2[mid2+1])
+        # elif mid2 == -1: # 表示nums2没有参与进来
+        #     min_right = nums2[0] # 等价于min_right = nums2[mid2+1],由于len2>=len1 所以不用考虑nums2==[]的情况
+        # else:
+        #     if mid1+1 <= len1-1: # 排除nums1全部在前面（也就是完全参与进来）的情况
+        #         min_right = min(nums1[mid1+1],nums2[mid2+1])
+        #     else: # 否则右边当然只能是nums2[mid2+1]
+        #         min_right = nums2[mid2+1]
+        # return (max_left+min_right)/2
+        
+        # 这是参考答案的思路，比自己想的要好
+        if mid1+1 == len1: # 表示nums1全部参与进来
+            min_right = nums2[mid2+1]
+        elif mid2+1 == len2: # 表示nums2全部参与进来
+            min_right = nums1[mid1+1]
         else:
-            if mid1+1 <= len1-1:
-                min_right = min(nums1[mid1+1],nums2[mid2+1])
-            else:
-                min_right = nums2[mid2+1]
+            min_right = min(nums1[mid1+1], nums2[mid2+1])
         return (max_left+min_right)/2
