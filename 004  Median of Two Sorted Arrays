@@ -60,7 +60,7 @@ class Solution:
 
         return (max_of_left + min_of_right) / 2
 
-# 自己写的，击败99.67%
+# 自己写的，击败99.67%，答案最好也是99.67%
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         len1, len2 = len(nums1), len(nums2)
