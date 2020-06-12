@@ -8,6 +8,19 @@
 2，小猪喝完水后，必须有 m 分钟的冷却时间。在这段时间里，只允许观察，而不允许继续饮水。
 3，任何给定的桶都可以无限次采样（无限数量的猪）。
 
+class Solution:
+    def poorPigs(self, buckets: int, minutesToDie: int, minutesToTest: int) -> int:
+        # every_num = floor(p/m) + 1 # 每只猪能检测多少个水桶
+        # pig_num = ceil(log(n,num)) # 需要多少只猪
+        states = math.floor(minutesToTest/minutesToDie)+1 # 可以用地板除//，用floor是为了表明逻辑关系
+        # x = math.ceil(math.log(states, buskets))
+        return math.ceil(math.log(buckets,states))
+
+# class Solution:
+#     def poorPigs(self, buckets: int, minutesToDie: int, minutesToTest: int) -> int:
+#         states = minutesToTest // minutesToDie + 1
+#         return math.ceil(math.log(buckets) / math.log(states))
+
 参考：https://leetcode-cn.com/problems/poor-pigs/solution/hua-jie-suan-fa-458-ke-lian-de-xiao-zhu-by-guanpen/
 假设：总时间 minutesToTest = 60，死亡时间 minutesToDie = 15，pow(x, y) 表示 x 的 y 次方，ceil(x)表示 x 向上取整
 当前有 11 只小猪，最多可以喝 times = minutesToTest / minutesToDie = 4 次水
