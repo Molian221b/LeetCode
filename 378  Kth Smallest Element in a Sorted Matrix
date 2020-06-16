@@ -10,5 +10,36 @@ k = 8,
 返回 13。
 
 # 二分法
+class Solution():
+    def kthSmallest(self, matrix, k):
+
+        # 这种方法占用的资源很多
+        # def num(matrix, target):
+        #     count = 0
+        #     for i in range(n):
+        #         for j in range(n):
+        #             if matrix[i][j] <= target:
+        #                 count += 1
+        #     return count
+
+        def num(m, target):
+            count = 0
+            i, j = 0, len(matrix) - 1
+            while i and j > 0:
+
+
+            return count
+
+        left = matrix[0][0]
+        right = matrix[-1][-1]
+
+        while left < right:
+            mid = (left + right) >> 1
+            if num(matrix, mid) < k:
+                left = mid + 1
+            else:
+                right = mid
+
+        return left
 
 # 构建堆
