@@ -11,8 +11,9 @@ k = 8,
 
 # 二分法
 class Solution():
-    def kthSmallest(self, matrix, k):
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
 
+        # 找出<=target的元素个数
         # 这种方法占用的资源很多
         # def num(matrix, target):
         #     count = 0
@@ -22,12 +23,18 @@ class Solution():
         #                 count += 1
         #     return count
 
+        n = len(matrix)
+         
+        # 这种写法本身就是个难点，而且经测试，while i<n比while<len(m)用时更少
         def num(m, target):
             count = 0
-            i, j = 0, len(matrix) - 1
-            while i and j > 0:
-
-
+            i, j = 0, n - 1
+            while i < n and j >= 0:
+                if m[i][j] <= target:
+                    i += 1
+                    count += j+1
+                else:
+                    j -= 1
             return count
 
         left = matrix[0][0]
