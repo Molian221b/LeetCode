@@ -4,6 +4,7 @@ class Solution:
     def reverseVowels(self, s: str) -> str:
         # 用字典而不是列表是为了让查找速度更快
         vowels = {'a':0, 'e':0, 'i':0, 'o':0, 'u':0, 'A':0, 'E':0, 'I':0, 'O':0, 'U':0}
+        # 字符串不支持更改
         str_list = list(s)
         index1 = 0
         index2 = len(str_list)-1
