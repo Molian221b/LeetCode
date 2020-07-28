@@ -25,8 +25,6 @@ class Solution:
                 return True
         return False
 
-
-
 # overtime!
 class Solution:
     def judgeSquareSum(self, c: int) -> bool:
