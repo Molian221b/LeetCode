@@ -3,11 +3,10 @@ Given a non-negative integer c, your task is to decide whether there're two inte
 # 二分法
 class Solution:
     def judgeSquareSum(self, c: int) -> bool:
-        num = ceil(sqrt(c))
         num1 = 0
-        num2 = num
+        num2 = floor(sqrt(c))
         while num1 <= num2:
-            temp = num1**2 + num2**2
+            temp =  num1**2 + num2**2
             if temp == c:
                 return True
             elif temp < c:
