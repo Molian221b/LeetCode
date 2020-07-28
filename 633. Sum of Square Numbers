@@ -1,0 +1,44 @@
+Given a non-negative integer c, your task is to decide whether there're two integers a and b such that a2 + b2 = c.
+
+# 二分法
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        num = ceil(sqrt(c))
+        num1 = 0
+        num2 = num
+        while num1 <= num2:
+            temp = num1**2 + num2**2
+            if temp == c:
+                return True
+            elif temp < c:
+                num1 += 1
+            else:
+                num2 -= 1
+        return False
+
+# 整数法
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        num = floor(sqrt(c))    
+        for i in range(num+1):
+            temp = sqrt(c-i**2)
+            if temp == int(temp):
+                return True
+        return False
+
+
+
+# overtime!
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        num = floor(sqrt(c))    
+        num1 = 0
+        num2 = 0
+        for i in range(num + 1):
+            for j in range(num + 1):
+                if i**2 + j**2 == c:
+                    return True
+                else:
+                    j += 1
+            i += 1
+        return False
