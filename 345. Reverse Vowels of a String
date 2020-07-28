@@ -1,0 +1,22 @@
+Write a function that takes a string as input and reverse only the vowels of a string.
+
+class Solution:
+    def reverseVowels(self, s: str) -> str:
+        # 用字典而不是列表是为了让查找速度更快
+        vowels = {'a':0, 'e':0, 'i':0, 'o':0, 'u':0, 'A':0, 'E':0, 'I':0, 'O':0, 'U':0}
+        str_list = list(s)
+        index1 = 0
+        index2 = len(str_list)-1
+        while index1 < index2:
+            if str_list[index1] not in vowels:
+                index1 += 1
+            elif str_list[index2] not in vowels:
+                index2 -= 1
+            else:
+                # 若直接操作字符串，str_list[index1],str_list[index2] = str_list[index2],str_list[index1]
+                # 操作字符串速度会慢很多
+                str_list[index1],str_list[index2] = str_list[index2],str_list[index1]
+                index1 += 1
+                index2 -= 1
+
+        return "".join(str_list)
