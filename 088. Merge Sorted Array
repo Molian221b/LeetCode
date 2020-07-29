@@ -28,3 +28,7 @@ class Solution:
             nums1[(index1+index2):] = temp_nums1[index1:]
         elif index2 < n:
             nums1[(index1+index2):] = nums2[index2:]
+
+# 也可以用python本身的sorted方法实现，
+# 注意，不能nums1 = sorted(nums1[:m]+nums2),尽管pycharm可以
+# nums1[:] = sorted(nums1[:m]+nums2)
