@@ -57,9 +57,9 @@ class Solution:
         # 因此这个方法并不好，只是提供一种思路
         if head.val == 100:
             return True
-
-        head.val = 100
-        return self.hasCycle(head.next)
+        else:
+            head.val = 100
+            return self.hasCycle(head.next)
         
 # 理解：
 # 思路：把访问过的值都进行赋值，如果链表完全成环，则必会出现重复值
