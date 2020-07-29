@@ -1,0 +1,49 @@
+Given a linked list, determine if it has a cycle in it.
+To represent a cycle in the given linked list, we use an integer pos which represents the position (0-indexed) in the linked list where tail connects to. If pos is -1, then there is no cycle in the linked list.
+
+Example 1:
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where tail connects to the second node.
+
+# 注意，这里的pos实际上是抽象的，ListNode里并没有实际定义这个值
+# 另外，避免空指针的方法是在定义ListNode的时候加上self.next = None
+
+# 暴力搜索
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        temp = set()
+        while head:
+            if head in temp:
+                return True
+            else:
+                temp.add(head)
+                head = head.next
+                
+# 快慢指针
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        slow = fast = head
+        # if not head：  # 没必要这样写可以加入while循环判断更简洁
+        #     return False
+        while fast and fast.next:  # 防止head为空和出现空指针的next的情况
+            slow = slow.next
+            fast = fast.next.next
+            if slow is fast:
+                return True
+        return False
+        
+# 递归标记法
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        if not head:
+            return False
+
+        # 这里的val可以是任意数字，主要用来标记
+        # 但要注意的是这个数字可能会和一个没闭环的ListNode的某个节点的val相等从而与结果不符合
+        # 因此这个方法并不好，只是提供一种思路
+        if head.val == 3:
+            return True
+
+        head.val = 3
+        return self.hasCycle(head.next)
