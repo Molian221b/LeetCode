@@ -55,10 +55,10 @@ class Solution:
         # 这里的val可以是任意数字，主要用来标记
         # 但要注意的是这个数字可能会和一个没闭环的ListNode的某个节点的val相等从而与结果不符合
         # 因此这个方法并不好，只是提供一种思路
-        if head.val == 3:
+        if head.val == 100:
             return True
 
-        head.val = 3
+        head.val = 100
         return self.hasCycle(head.next)
         
 # 理解：
