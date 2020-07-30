@@ -1,0 +1,40 @@
+Given a string and a string dictionary, find the longest string in the dictionary that can be formed by deleting some characters of the given string. If there are more than one possible results, return the longest word with the smallest lexicographical order. If there is no possible result, return the empty string.
+Example 1:
+Input:
+s = "abpcplea", d = ["ale","apple","monkey","plea"]
+
+Output: 
+"apple"
+Example 2:
+Input:
+s = "abpcplea", d = ["a","b","c"]
+
+Output: 
+"a"
+Note:
+All the strings in the input will only contain lower-case letters.
+The size of the dictionary won't exceed 1,000.
+The length of all the strings in the input won't exceed 1,000.
+
+class Solution:
+    def findLongestWord(self, s: str, d: List[str]) -> str:
+        # sort()和lambda的特殊用法，sort()可以通过lambda设置后面的多个参数以达到同时满足多个条件的排序
+        # sorted()也有同样效果，使用方法一样
+        d.sort(key = lambda x: (-len(x),x)) 
+        
+        def check(temp):   # 检查函数，看d里的单词temp是否符合
+            # 这个index是相对s而言
+            index = 0
+            for c in temp:  # 遍历temp里的字母
+                num = s.find(c,index)  # 查找函数，index是起点
+                if num == -1:
+                    return False  # 查找失败就返回False，说明这个temp不符合
+                else:
+                    index = num + 1  #查找成功就将索引定义为当前查找字母位置+1
+            return True
+        
+        for temp in d:  # 遍历d
+            if check(temp):  # 按顺序调用check()
+                return temp  # 如果返回True说明temp满足条件
+
+        return ""  # 反则返回空字符串
