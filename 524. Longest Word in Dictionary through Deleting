@@ -16,6 +16,7 @@ All the strings in the input will only contain lower-case letters.
 The size of the dictionary won't exceed 1,000.
 The length of all the strings in the input won't exceed 1,000.
 
+# 注意，字典排序是指每个字母都依次排序而不是原始数据里的顺序
 # 字典排序
 class Solution:
     def findLongestWord(self, s: str, d: List[str]) -> str:
@@ -41,4 +42,23 @@ class Solution:
 
         return ""  # 反则返回空字符串
         
-# 双指针
+# 双指针，刻意没用sort()和lambda
+class Solution:
+    def findLongestWord(self, s: str, d: List[str]) -> str:
+        target = "" # 用来表示当前找到的满足条件字符串
+        num = 0  # 用来表示当前找到的最长字符串长度
+        for temp in d:
+            i = j = 0
+            while i < len(s) and j < len(temp):
+                if s[i] == temp[j]:
+                    i += 1
+                    j += 1
+                else:
+                    i += 1
+            if j == len(temp):
+                if j > num:
+                    num = j
+                    target = temp
+                elif j == num and temp < target:
+                    target = temp                        
+        return target
