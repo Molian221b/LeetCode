@@ -21,7 +21,7 @@ The length of all the strings in the input won't exceed 1,000.
 class Solution:
     def findLongestWord(self, s: str, d: List[str]) -> str:
         # sort()和lambda的特殊用法，sort()可以通过lambda设置后面的多个参数以达到同时满足多个条件的排序
-        # sorted()也有同样效果，使用方法一样
+        # sorted()也有同样效果，使用方法一样。和sort()的区别在于sort是修改原始数据，而sorted是复制一个再排序
         # 也就是用元组表示多关键字排序，第一关键字是长度降序，第二关键字是字符串本身字典序
         d.sort(key = lambda x: (-len(x),x)) 
         
