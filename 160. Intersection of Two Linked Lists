@@ -1,0 +1,52 @@
+Write a program to find the node at which the intersection of two singly linked lists begins.
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# 暴力法，会超时，有点蠢
+# 时间复杂度 : (mn)(mn)
+# 空间复杂度 : O(1)O(1)
+# class Solution:
+#     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+#         temp = headB
+#         while headA:
+#             while headB:
+#                 if headB is headA:
+#                     return headB
+#                 else:
+#                     headB = headB.next
+#             headA = headA.next
+#             headB = temp
+#         return None
+
+# 哈希表法
+# 遍历链表 A 并将每个结点的地址/引用存储在哈希表中。然后检查链表 B 中的每一个结点是否在哈希表中。
+# 时间复杂度 : O(m+n)O(m+n)。
+# 空间复杂度 : O(m)O(m) 或 O(n)O(n)。
+# class Solution:
+#     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+#         temp = set()
+#         while headA:
+#             temp.add(headA)
+#             headA = headA.next
+#         while headB:
+#             if headB in temp:
+#                 return headB
+#             else:
+#                 headB = headB.next
+#         return None
+
+# 双指针
+# 时间复杂度 : O(m+n)O(m+n)
+# 空间复杂度 : O(1)O(1)
+# class Solution:
+#     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+#         temp1 = headA
+#         temp2 = headB
+#         while temp1 is not temp2:
+#             temp1 = temp1.next if temp1 else headB
+#             temp2 = temp2.next if temp2 else headA
+#         return temp1
