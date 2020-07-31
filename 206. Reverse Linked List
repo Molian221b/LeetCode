@@ -23,3 +23,34 @@ class Solution:
             head.next = temp1
             next_node = next_node.next
         return head
+
+# 双指针迭代
+# 写法1
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        pre = None
+        cur = head
+        while cur:
+            cur.next,pre,cur = pre,cur,cur.next
+        return pre
+# 写法2
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        pre = None
+        cur = head
+        while cur:
+            temp = cur.next
+            cur.next = pre
+            pre = cur
+            cur = temp
+        return pre
+        
+# 递归
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        nextNode = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None # 这个主要是防止head1.next指向head2造成无限循环
+        return nextNode
