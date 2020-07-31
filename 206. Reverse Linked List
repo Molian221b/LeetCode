@@ -45,7 +45,7 @@ class Solution:
             cur = temp
         return pre
         
-# 递归
+# 递归 
 class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
         if not head or not head.next:
@@ -53,4 +53,4 @@ class Solution:
         nextNode = self.reverseList(head.next)
         head.next.next = head
         head.next = None # 这个主要是防止head1.next指向head2造成无限循环
-        return nextNode
+        return nextNode #实际上每个nextNode都是head5
