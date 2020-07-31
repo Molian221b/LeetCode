@@ -6,6 +6,9 @@ Follow up:
 A linked list can be reversed either iteratively or recursively. Could you implement both?
 
 
+# 此题可参考https://leetcode-cn.com/problems/reverse-linked-list/solution/dong-hua-yan-shi-206-fan-zhuan-lian-biao-by-user74/
+# 动画演示
+
 # 特殊例子，注意 head = copy.copy(next_node) ,如果是head = next_node，会直接引用，也就是head is next_node,
 # 从而再下句 head.next = temp1 时 连同 next_node 一起更改，从而无法得到正确答案
 # 另外copy分浅拷贝和深拷贝，用的时候留意
