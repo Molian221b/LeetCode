@@ -8,6 +8,7 @@ A linked list can be reversed either iteratively or recursively. Could you imple
 
 # 特殊例子，注意 head = copy.copy(next_node) ,如果是head = next_node，会直接引用，也就是head is next_node,
 # 从而再下句 head.next = temp1 时 连同 next_node 一起更改，从而无法得到正确答案
+# 另外copy分浅拷贝和深拷贝，用的时候留意
 import copy
 class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
@@ -15,7 +16,7 @@ class Solution:
         head = None
         while next_node:
             temp1 = head
-            head = copy.copy(next_node) 
+            head = copy.copy(next_node)  # 如果直接写成head = next_node,那下一步的head.next=temp会同时改变head里面的next属性，因为此时head和next_node都是指向同一个对象
             head.next = temp1
             next_node = next_node.next
         return head
