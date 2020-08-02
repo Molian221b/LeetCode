@@ -3,12 +3,42 @@ Example:
 Input: 1->1->2->3->3
 Output: 1->2->3
 
-class Solution:
-    def deleteDuplicates(self, head: ListNode) -> ListNode:
-        temp = head
-        while head and head.next:
-            if head.val == head.next.val:
-                head.next = head.next.next
-            else:
-                head = head.next
-        return temp
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# 递归，自己写的
+# class Solution:
+#     def deleteDuplicates(self, head: ListNode) -> ListNode:
+#         if head and head.next:
+#             if head.val == head.next.val:
+#                 head.next = head.next.next
+#                 head = self.deleteDuplicates(head)
+#             else:
+#                 head.next = self.deleteDuplicates(head.next)
+#         return head
+
+# 递归，某参考答案
+# class Solution:
+#     def deleteDuplicates(self, head: ListNode) -> ListNode:
+#         if head:
+#             head.next = self.deleteDuplicates(head.next)
+#             if head.next and head.val == head.next.val:
+#                 return head.next
+#             else:
+#                 return head
+#         else:
+#             return None
+
+# 硬算
+# class Solution:
+#     def deleteDuplicates(self, head: ListNode) -> ListNode:
+#         temp = head
+#         while head and head.next:
+#             if head.val == head.next.val:
+#                 head.next = head.next.next
+#             else:
+#                 head = head.next
+#         return temp
