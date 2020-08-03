@@ -19,7 +19,7 @@ class Solution:
         count = 0
         temp = head
         if num == 1:  # 用num判断要去除的节点是不是头节点，这是之前没想到的
-            # 关于a = b = c = x的赋值顺序其实是：a = x, b = a, c = b
+            # 关于a = b = c = x的赋值顺序其实是：a = x, b = a, c = a
             head = temp = temp.next
             # temp = temp.next
             # head = temp
