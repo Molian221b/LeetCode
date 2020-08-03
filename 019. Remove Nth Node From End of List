@@ -6,28 +6,79 @@ Note:
 Given n will always be valid.
 Follow up:
 Could you do this in one pass?
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# 递归
+# class Solution:
+#     def removeNthFromEnd(self, head, n):
+#         global i
+#         if head == None:
+#             i = 0
+#             return head
+#         head.next = self.removeNthFromEnd(head.next, n)
+#         i += 1
+#         if i == n:
+#             return head.next
+#         else:
+#             return head
+
+# 一次扫描，自写，非常好
+# class Solution:
+#     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+#         count1 = -n
+#         count2 = 1
+#         temp1 = temp2 = head
+#         while temp1:
+#             count2 += 1
+#             count1 += 1
+#             temp1 = temp1.next
+#             if temp1 == None:
+#                 if count1 == 0: # 如果去除的正好是头节点
+#                     return head.next
+#                 else:
+#                     temp2.next = temp2.next.next
+#             if count1 > 0: 
+#                 temp2 = temp2.next
+#         return head
+
+# 通过在头节点前再新建一个节点的取巧办法，个人不是很喜欢
+# class Solution:
+#     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+#         temp_node = ListNode(None)
+#         temp_node.next = head
+#         slow = fast = temp_node 
+#         for i in range(n+1):
+#             fast = fast.next
+#         while fast:
+#             fast = fast.next
+#             slow = slow.next
+#         slow.next = slow.next.next
+#         return temp_node.next # 这里不能return head，以免head只有一个节点的情况出现错误 
 
 # 两次扫描
-class Solution:
-    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
-        count = 0
-        temp = head
-        while temp:
-            count += 1
-            temp = temp.next
-        num = count - n + 1
-        count = 0
-        temp = head
-        if num == 1:  # 用num判断要去除的节点是不是头节点，这是之前没想到的
-            # 关于a = b = c = x的赋值顺序其实是：a = x, b = a, c = a
-            head = temp = temp.next
-            # temp = temp.next
-            # head = temp
-        else:
-            while temp:
-                count += 1
-                if count == num-1:
-                    temp.next = temp.next.next
-                temp = temp.next
-        temp = head                
-        return temp
+# class Solution:
+#     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+#         count = 0
+#         temp = head
+#         while temp:
+#             count += 1
+#             temp = temp.next
+#         num = count - n + 1
+#         count = 0
+#         temp = head
+#         if num == 1:  # 用num判断要去除的节点是不是头节点，这是之前没想到的
+#             head = temp = temp.next
+#             # temp = temp.next
+#             # head = temp
+#         else:
+#             while temp:
+#                 count += 1
+#                 if count == num-1:
+#                     temp.next = temp.next.next
+#                 temp = temp.next
+#         temp = head                
+#         return temp
