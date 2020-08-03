@@ -1,0 +1,67 @@
+摘抄自：https://www.v2ex.com/amp/t/443384?__cf_chl_jschl_tk__=bf304edf99ce8a5d7215f352c3549a213c55a399-1596448321-0-ARJYXjaHCarCbty92O5l9t5BfaiN7mO2ujiHfQXGfcqfhz2s15UW3DlYwjgH6cKRBn7hk_SC9xzIcszs6jTHSdiOHYeYmhvNAmDn5m15TvyJi4D4DBsmVwizFse2z_ni2GayLQaJ80w386QMid78j8V1qruSC0aS5z5CxBjxQfRrfhg9q1KySAObJ_pF8Zi0rBqX3jNBKDK8lUJlc_7ru0lkg9cQtJCetCF2UWFX_ytB8Aa6wkpS9nGpKVsgGkEDah0zmfga2C6eeSmSyUN8vWE3gKJotihYSR6pOhonNumzIn3wF1nT9Oh-ZcIiJf7xLLCWPHaZh6n-PLpdDMr2pK72GpXyCuze2QFVZa1pep2Q
+
+今天回答了一个主题， 一不小心进入了一个坑， 耗费了好多时间终于弄懂了
+我想要将 a,b,c 变量同时赋值 1， 我使用了
+```
+In [192]: a = b = c = 1
+
+In [193]: a, b, c
+Out[193]: (1, 1, 1)
+```
+很明显我赋值成功了，a、b、c 都是 1
+但是这个下赋值顺序是怎么样的
+首先让我们先猜测一下：
+第一种方式：a,b,c 同时赋值 1，a=1, b=1, c=1
+第二种方式：依次赋值 c=1, b=c, a=b
+以上两种显然是很合理的
+但是我们要验证一下：
+于是我开始说到我遇到的坑（其实这个是在说明 list 的 append 添加方法为什么返回的是 None 出现的）
+假如我们创建变量 L 赋值为空， 我们先 L 以切片的形式添加 x 值
+```
+In [200]: L = []
+
+In [201]: x = 4
+
+In [202]: L[len(L):] = [x]
+
+In [203]: L
+Out[203]: [4]
+```
+我已经添加成功
+由于 Python 的引用原理，我们可以多次添加
+于是我想多次添加：
+```
+In [206]: L = []
+
+In [207]: L[len(L):]=L[len(L):] = [x]
+
+In [208]: L
+Out[208]: [4, 4]
+
+```
+如我所料的一样我成功添加了 2 个 4， 也是说我每次都能获得 4，并向 L 尾部相加， 可以确定是第一种方式， 因为第二种根本只能加进一个 4：
+第一种：L[len(L):]= [x], L[len(L):]= [x]
+第二种：L[len(L):]= [x]，L[len(L):]= L[len(L):]
+
+好下面重点来了，我然后重点来了， 我又写了一个语句
+```
+In [209]: L = []
+
+In [210]: L = L[len(L):]=L[len(L):] = [x]
+
+In [211]: L
+Out[211]: [4, 4, 4, 4]
+```
+这个不对啊
+L 不应该等于[4]或者[4, 4, 4]吗，为什么会预测出两个结果，这个是赋值顺序问题， 正序和逆序
+第一种方式的两种顺序：
+正序：L = [x], L[len(L):] = [x], L[len(L):] = [x] L=[4,4,4]
+逆序：L[len(L):] = [x]，L[len(L):] = [x]，L=[x] L=[4]
+
+但是为什么会出现[4, 4, 4,4]
+唯一的解释便是第三种赋值方式：
+L = [x] # L = [4]
+L[len(L):]=L # L=[4,4]
+L[len(L):]=L # L=[4, 4, 4, 4]
+这样我们就完全解释了这种状况
+所以针对 a=b=c=1 这种赋值方式，其实是 a=1, b=a, c=a
