@@ -23,3 +23,13 @@ Given 1->2->3->4, you should return the list as 2->1->4->3.
 #             b.next = a
 #             temp = temp.next.next
 #         return temp_node.next
+
+# 递归
+# class Solution:
+#     def swapPairs(self, head: ListNode) -> ListNode:
+#         if head == None or head.next == None:
+#             return head
+#         temp = head.next
+#         head.next = self.swapPairs(head.next.next)
+#         temp.next = head
+#         return temp
