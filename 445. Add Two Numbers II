@@ -5,3 +5,75 @@ What if you cannot modify the input lists? In other words, reversing the lists i
 Example:
 Input: (7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
 Output: 7 -> 8 -> 0 -> 7
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# 原地硬算，自写
+# class Solution:
+#     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+#         len1 = 0
+#         len2 = 0
+#         str1 = ''
+#         str2 = ''
+#         while l1:
+#             str1 += str(l1.val)
+#             l1 = l1.next
+#         num1 = int(str1)
+#         while l2:
+#             str2 += str(l2.val)
+#             l2 = l2.next
+#         num2 = int(str2)
+#         num = num1 + num2
+#         temp_list = str(num)
+#         l3 = ListNode(None)
+#         final = l3
+#         for i in range(len(temp_list)):
+#             temp = ListNode(temp_list[i])
+#             l3.next = temp
+#             l3 = l3.next
+#         return final.next
+
+# 栈
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if l1 == None:
+            return l2
+        if l2 == None:
+            return l1
+        # 用列表代表栈
+        def stack(node):
+            temp = []
+            while node:
+                temp.append(node.val)
+                node = node.next
+            return temp
+        stack1 = stack(l1)
+        stack2 = stack(l2)
+        one_digit = 0
+        additive_digit = 0
+        final = ListNode(None)
+        while stack1 != [] or stack2 != [] or additive_digit != 0:
+            temp = additive_digit
+            if stack1:
+                temp += stack1.pop()
+            if stack2:
+                temp += stack2.pop()
+            # if stack1:
+            #     num1 = stack1.pop()
+            # else:
+            #     num1 = 0
+            # if stack2:
+            #     num2 = stack2.pop()
+            # else:
+            #     num2 = 0
+            # temp = num1 + num2 + additive_digit
+            one_digit = temp % 10
+            additive_digit = temp // 10
+            temp_node = ListNode(one_digit)
+            temp_node.next = final.next
+            final.next = temp_node
+        return final.next
