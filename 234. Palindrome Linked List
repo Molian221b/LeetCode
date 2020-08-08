@@ -8,3 +8,27 @@ Output: true
 Follow up:
 Could you do it in O(n) time and O(1) space?
 
+# 快慢指针，自写
+# class Solution:
+#     def isPalindrome(self, head: ListNode) -> bool:
+#         slow = head
+#         fast = head
+#         pre = None
+#         while fast and fast.next:
+#             temp = slow
+#             slow = slow.next
+#             fast = fast.next.next
+#             temp.next = pre
+#             pre = temp
+#         if fast:  # 链表长度为奇数
+#             slow_head = pre
+#             fast_head = slow.next
+#         else:     # 链表长度为偶数
+#             slow_head = pre
+#             fast_head = slow
+#         while slow_head:
+#             if slow_head.val != fast_head.val:
+#                 return False
+#             slow_head = slow_head.next
+#             fast_head = fast_head.next
+#         return True
