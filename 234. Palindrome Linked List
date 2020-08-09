@@ -32,3 +32,33 @@ Could you do it in O(n) time and O(1) space?
 #             slow_head = slow_head.next
 #             fast_head = fast_head.next
 #         return True
+
+# 递归
+# 注意nonlocal的使用，可以参照局域变量里的例子
+# class Solution:
+#     def isPalindrome(self, head: ListNode) -> bool:
+#         front = head
+#         def check(behind=head):
+#             nonlocal front
+#             if behind:
+#                 if check(behind.next) == False:
+#                     return False
+#                 if behind.val != front.val:
+#                     return False       
+#                 front = front.next 
+#             return True
+#         return check()
+
+# 不使用nonlocal的写法
+# class Solution:
+#     def isPalindrome(self, head: ListNode) -> bool:
+#         self.front = head
+#         def check(behind=head):
+#             if behind:
+#                 if check(behind.next) == False:
+#                     return False
+#                 if behind.val != self.front.val:
+#                     return False       
+#                 self.front = self.front.next 
+#             return True
+#         return check()
