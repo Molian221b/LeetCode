@@ -16,16 +16,17 @@ The length of the linked list is between [0, 10^4].
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+
 class Solution:
     def oddEvenList(self, head: ListNode) -> ListNode:
         if not head:
-            return head 
-        odd_cur = head 
-        even = even_cur = head.next
-        while odd_cur.next and even_cur.next:
-            odd_cur.next = odd_cur.next.next
-            even_cur.next = even_cur.next.next
-            odd_cur = odd_cur.next
-            even_cur = even_cur.next
-        odd_cur.next = even
+            return head
+        odd = head
+        even_head = even = head.next
+        while odd.next and even.next:
+            odd.next = odd.next.next
+            even.next = even.next.next
+            odd = odd.next
+            even = even.next
+        odd.next = even_head
         return head
