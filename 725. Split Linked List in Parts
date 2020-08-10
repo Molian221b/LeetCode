@@ -29,7 +29,7 @@ k will be an integer in the range [1, 50].
 #         self.val = x
 #         self.next = None
 
-# 创建新链表，我的写法
+# 创建新链表
 # class Solution(object):
 #     def splitListToParts(self, root, k):
 #         res = [] # 最终结果
@@ -51,4 +51,25 @@ k will be an integer in the range [1, 50].
 #             temp.next = None
 #             res.append(target.next)
 
+#         return res
+
+# 直接拆链表
+# class Solution(object):
+#     def splitListToParts(self, root, k):
+#         res = []
+#         cur = root
+#         length = 0
+#         while cur:
+#             length += 1
+#             cur = cur.next
+#         cur = root
+#         quotient, remainder = divmod(length, k)
+        
+#         for i in range(k):
+#             temp = cur
+#             for j in range(quotient + (i<remainder) - 1):
+#                 cur = cur.next
+#             if cur:
+#                 cur.next, cur = None, cur.next
+#             res.append(temp)
 #         return res
