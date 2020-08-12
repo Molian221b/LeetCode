@@ -14,3 +14,38 @@ Output: 2
 Explanation: You have 2 children and 3 cookies. The greed factors of 2 children are 1, 2. 
 You have 3 cookies and their sizes are big enough to gratify all of the children, 
 You need to output 2.
+
+class Solution:
+    def findContentChildren(self, g: List[int], s: List[int]) -> int:
+        g.sort()
+        s.sort()
+        gi = si = 0
+        while gi < len(g) and si < len(s):
+            if g[gi] <= s[si]:
+                gi += 1
+                si += 1
+            else:
+                si += 1
+        return gi
+
+# 自写，用pop()简直不要更蠢，引以为戒
+# class Solution:
+#     def findContentChildren(self, g: List[int], s: List[int]) -> int:
+#         g.sort()
+#         s.sort()
+#         count = 0
+#         switch = True
+#         while s: # 从饼干开始扫描
+#             if switch:
+#                 s_temp = s.pop(0)
+#                 g_temp = g.pop(0)
+#             else:
+#                 s_temp = s.pop(0)
+#             if s_temp >= g_temp:
+#                 count += 1
+#                 if not g:
+#                     return count
+#                 switch = True
+#             else:
+#                 switch = False
+#         return count
