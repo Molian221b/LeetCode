@@ -15,3 +15,15 @@ Note:
 You may assume the interval's end point is always bigger than its start point.
 Intervals like [1,2] and [2,3] have borders "touching" but they don't overlap each other.
 
+# 动态规划
+# class Solution:
+#     def lengthOfLIS(self, nums: List[int]) -> int:
+#         if not nums:
+#             return 0
+#         dp = []
+#         for i in range(len(nums)):
+#             dp.append(1)
+#             for j in range(i):
+#                 if nums[i] > nums[j]:
+#                     dp[i] = max(dp[i], dp[j]+1)
+#         return max(dp)
