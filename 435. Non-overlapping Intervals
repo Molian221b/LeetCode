@@ -28,3 +28,20 @@ Intervals like [1,2] and [2,3] have borders "touching" but they don't overlap ea
 #                 end = temp[-1]
 #                 count += 1
 #         return len(intervals)-count
+        
+# 动态规划
+# dp[i]代表的是 按末位排序后的intervals 的以intervals[i]为子序列最后一项的 子序列长度
+# class Solution:
+#     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+#         if not intervals:
+#             return 0
+#         intervals.sort(key = lambda a: a[-1])
+#         length = len(intervals)
+#         dp = [1]*length
+#         for i in range(length):
+#             for j in range(i-1, -1, -1):
+#                 if intervals[i][0] >= intervals[j][-1]:
+#                     dp[i] = dp[j]+1  # 这里要这么写一次纯粹是因为下面那句如果写成dp[i] = max(dp[j]+1, dp[i-1])会因为无法调用局域变量j报错
+#                     break
+#             dp[i] = max(dp[i], dp[i-1])
+#         return length - max(dp)
