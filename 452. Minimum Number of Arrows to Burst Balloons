@@ -7,3 +7,14 @@ Output:
 2
 Explanation:
 One way is to shoot one arrow for example at x = 6 (bursting the balloons [2,8] and [1,6]) and another arrow at x = 11 (bursting the other two balloons).
+
+class Solution:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        points.sort(key = lambda a: a[-1])
+        count = 0
+        end = -float('inf')
+        for temp in points:
+            if temp[0] > end:
+                end = temp[-1]
+                count += 1
+        return count
