@@ -1,20 +1,66 @@
+# class Solution:
+#     def maxProfit(self, prices: List[int]) -> int:
+#         if not prices:
+#             return 0
+#         days = len(prices)
+#         dp = [[[0 for i in range(2)] for j in range(3)] for k in range(days)]
+#         res = 0
+#         dp[0][0][0] = 0
+#         dp[0][0][1] = -prices[0]
+#         dp[0][1][0] = -float('inf')
+#         dp[0][1][1] = -float('inf')
+#         for i in range(1, days):
+#             for j in range(3):
+#                 if j == 0:
+#                     dp[i][j][0] = 0
+#                 else:
+#                     dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1] + prices[i])
+#                 dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j][0] - prices[i])
+#                 res = max(res, dp[i][j][0])
+#         return res
+
+# 贪心算法
+# 太巧妙了，甚至有些感动，结合121题的贪心解法理解
+# 为什么可以这样，举个例子，[10,20,30,100,99]
+# 按方法得出的结果时100-10 = 90，可不可能100后面出现一个小于100的数m（例子里面时99），
+# 然后(20-10)+(m-30) > (100-10)，当然不可能！因为左边的式子实际上是(m-20)-(30-20)，再加上m<100，所以无法实现
+# 这就是这种方法能成立的原理所在
+# class Solution:
+#     def maxProfit(self, prices: List[int]) -> int:
+#         min_1 = min_2 = float('inf')
+#         profit_1 = profit_2 = 0
+#         for i in prices:
+#             # 前两行代表了无论如何profit_1都能取到单次的最大值，也就是121的效果
+#             min_1 = min(min_1, i)
+#             profit_1 = max(profit_1, i - min_1) 
+#             # 这里的处理太巧妙了，i-profit_1的目的是为了下一步i-min_2时可以加上profit_1的值
+#             min_2 = min(min_2, i - profit_1)
+#             profit_2 = max(profit_2, i - min_2)        
+#         return profit_2
+
+# 分段法
+# 定义两个数组，第一个是每天第一次买卖最大利润的情况，第二个是每天第二次买卖（假设有）最大利润的情况，因为是从最后一天开始的所以要倒着算
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         if not prices:
             return 0
         days = len(prices)
-        dp = [[[0 for i in range(2)] for j in range(3)] for k in range(days)]
-        res = 0
-        dp[0][0][0] = 0
-        dp[0][0][1] = -prices[0]
-        dp[0][1][0] = -float('inf')
-        dp[0][1][1] = -float('inf')
+
+        profit_1 = [0]*days
+        min_num = prices[0]
         for i in range(1, days):
-            for j in range(3):
-                if j == 0:
-                    dp[i][j][0] = 0
-                else:
-                    dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1] + prices[i])
-                dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j][0] - prices[i])
-                res = max(res, dp[i][j][0])
+            min_num = min(min_num, prices[i])
+            profit_1[i] = max(profit_1[i-1], prices[i] - min_num)
+
+        profit_2 = [0]*days
+        max_num = prices[-1]
+        for i in range(days-2,-1,-1):
+            max_num = max(max_num, prices[i])
+            profit_2[i] = max(profit_2[i+1], max_num - prices[i])
+        
+        # 处理边界，如果只交易一次
+        res = profit_1[-1]  # 也可以是 res = profit_2[0]
+        for i in range(days-2):
+            res = max(res, profit_1[i]+profit_2[i+1])
+        
         return res
