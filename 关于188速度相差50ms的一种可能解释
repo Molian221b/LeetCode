@@ -1,0 +1,24 @@
+# 经10次左右测试,时间是依次递增的,可见访问末位的数值反而时间更快,但这种测试不严谨,只是提供一种思路
+
+import time
+
+temp3 = [[[0 for i in range(1000000)]for j in range(10)] for k in range(10)]
+e = time.time()
+for i in range(1000000):
+    res = temp3[9][9][i]
+f = time.time()
+print(f-e)
+
+temp2 = [[[0 for i in range(10)]for j in range(1000000)] for k in range(10)]
+c = time.time()
+for i in range(1000000):
+    res = temp2[9][i][9]
+d = time.time()
+print(d-c)
+
+temp1 = [[[0 for i in range(10)]for j in range(10)] for k in range(1000000)]
+a = time.time()
+for i in range(1000000):
+    res = temp1[i][9][9]
+b = time.time()
+print(b-a)
