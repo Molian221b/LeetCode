@@ -14,7 +14,7 @@ class Solution:
         buy = sell = prices[0]
         profit = 0
         for cur in prices[1:]:  # 从第二个数字开始检查
-            if cur > sell:  # 如果后面数值越来越大,则一直更新sell
+            if cur >= sell:  # 如果后面数值越来越大,则一直更新sell
                 sell = cur
             else:  # 这时碰到第一个不是越来越大的数值
                 #  重点在这里,为什么要满足这个条件?
