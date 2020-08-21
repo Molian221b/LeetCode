@@ -1,66 +1,95 @@
-# dp[第几次][状态][卖了几次]，超时，待优化(看后面，已解决)
+# 动态规划, dp[天数][次数][状态]
+# 这里出现了个非常奇怪的问题,下面的写法和这里一模一样,只是改成了dp[天数][状态][次数]
+# 然而测试结果却平均缩短了50ms,不明所以,猜测原因是由于要经常访问[状态],
+# 后面那种写法经常访问的是dp[][x][]第二位数而不是第一种写法的dp[][][x]第三位数
 class Solution:
     def maxProfit(self, k: int, prices: List[int]) -> int:
-        length = len(prices)
-        if length < 2:
+        if not prices:
             return 0
-        
-        count = k+1
-        dp = [[[0 for i in range(count)] for j in range(2)] for k in range(length)]
-        
-        dp[0][0][0] = 0
-        dp[0][1][0] = -prices[0]
 
-        for k in range(1, count):
-            dp[0][0][k] = float("-inf") 
-            dp[0][1][k] = float("-inf")
+        days = len(prices)
 
-        max_num = float("-inf")
-        for i in range(1, length):
-            for k in range(count):
-                if k == 0:
-                    dp[i][0][k] = dp[i-1][0][k]
+        if k > days//2:
+            res = 0
+            for i in range(1, days):
+                if prices[i] > prices[i-1]:
+                    res += prices[i] - prices[i-1]
+            return res
+
+        dp = [[[0 for i in range(2)] for j in range(k+1)] for _ in range(days)]
+        dp[0][0][0] = 0 
+        dp[0][0][1] = -prices[0]
+        for j in range(1, k+1):
+            dp[0][j][0] = -float('inf')
+            dp[0][j][1] = -float('inf')
+
+        res = 0
+        for i in range(1, days):
+            for j in range(k+1):
+                if j == 0:
+                    dp[i][j][0] = 0
                 else:
-                    dp[i][0][k] = max(dp[i-1][0][k], dp[i-1][1][k-1] + prices[i]) 
-                dp[i][1][k] = max(dp[i-1][1][k], dp[i-1][0][k] - prices[i])
-                max_num = max(max_num, dp[i][0][k], dp[i][1][k])
+                    dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1] + prices[i])
+                dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j][0] - prices[i])
+                res = max(res, dp[i][j][0])
 
-        return max_num
+        return res
 
-# 超时的原因在于k>length//2(相当于无限交易次数)时会极大增加计算量，所以改用贪心算法
-class Solution:
-    def maxProfit(self, k: int, prices: List[int]) -> int:
-        length = len(prices)
-        if length < 2:
-            return 0
+# class Solution:
+#     def maxProfit(self, k: int, prices: List[int]) -> int:
+#         if not prices:
+#             return 0
 
-        if k > length//2:
-            max_profit = 0
-            for i in range(1,length):
-                diff =  prices[i] - prices[i-1]
-                if diff > 0:
-                    max_profit += diff
-            return max_profit
+#         days = len(prices)
 
-        else:
-            count = k+1
-            dp = [[[0 for z in range(count)] for y in range(2)] for x in range(length)]
-            # dp[第几天][买卖状态][卖出次数]
+#         if k > days//2:
+#             res = 0
+#             for i in range(1, days):
+#                 if prices[i] > prices[i-1]:
+#                     res += prices[i] - prices[i-1]
+#             return res
 
-            dp[0][1][0] = -prices[0]
-            dp[0][0][0] = 0
-            for i in range(1,count):
-                dp[0][0][i] = float("-inf")
-                dp[0][1][i] = float("-inf")
+#         dp = [[[0 for i in range(k+1)] for j in range(2)] for _ in range(days)]
+#         dp[0][0][0] = 0 
+#         dp[0][1][0] = -prices[0]
+#         for j in range(1, k+1):
+#             dp[0][0][j] = -float('inf')
+#             dp[0][1][j] = -float('inf')
 
-            max_profit = float("-inf")
-            for i in range(1, length):
-                for j in range(count):
-                    if j == 0:
-                        dp[i][0][j] = dp[i-1][0][j]
-                    else:
-                        dp[i][0][j] = max(dp[i-1][0][j], dp[i-1][1][j-1] + prices[i])
-                    dp[i][1][j] = max(dp[i-1][1][j], dp[i-1][0][j] - prices[i])
-                    max_profit = max(max_profit, dp[i][0][j], dp[i][1][j])
+#         res = 0
+#         for i in range(1, days):
+#             for j in range(k+1):
+#                 if j == 0:
+#                     dp[i][0][j] = 0
+#                 else:
+#                     dp[i][0][j] = max(dp[i-1][0][j], dp[i-1][1][j-1] + prices[i])
+#                 dp[i][1][j] = max(dp[i-1][1][j], dp[i-1][0][j] - prices[i])
+#                 res = max(res, dp[i][0][j])
 
-            return max_profit
+#         return res
+
+# 动态规划标准模板,但由于k>days//2的话会重复计算太多次,所以上面进行了提前处理
+# class Solution:
+#     def maxProfit(self, k: int, prices: List[int]) -> int:
+#         if not prices:
+#             return 0
+            
+#         days = len(prices)
+#         dp = [[[0 for i in range(2)] for j in range(k+1)] for _ in range(days)]
+#         dp[0][0][0] = 0 
+#         dp[0][0][1] = -prices[0]
+#         for j in range(1, k+1):
+#             dp[0][j][0] = -float('inf')
+#             dp[0][j][1] = -float('inf')
+
+#         res = 0
+#         for i in range(1, days):
+#             for j in range(k+1):
+#                 if j == 0:
+#                     dp[i][j][0] = 0
+#                 else:
+#                     dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1] + prices[i])
+#                 dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j][0] - prices[i])
+#                 res = max(res, dp[i][j][0])
+
+#         return res
