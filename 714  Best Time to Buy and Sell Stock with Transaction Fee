@@ -23,7 +23,7 @@ class Solution:
                     buy = sell = cur
                 # 这里就是上面提到的如果b-a-fee<0,那么第一次交易根本没有存在的必要
                 # 相当于直接跳过b,变成a,c,d的问题
-                elif cur < buy:  
+                elif cur < buy:  # 走到这步,如果c<a,那么就单纯变成c,d的问题了
                     buy = sell = cur
         if sell - buy > fee:
             profit += sell - buy - fee
