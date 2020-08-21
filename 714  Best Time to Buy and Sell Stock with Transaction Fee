@@ -7,27 +7,27 @@
 # 但如果仔细观察就会发现d只决定了第二次要不要交易,实际上a,b,c,fee这4个值就已经可以判断第一次交易是否需要了
 # 又由于d的特殊性,边界问题竟然是不需要考虑的,因为第一次交易后,d就变成了第二次交易中的"sell",顺带一提此时c是"buy"
 # 太巧妙了
-class Solution:
-    def maxProfit(self, prices: list, fee: int) -> int:
-        if len(prices) < 2:
-            return 0
-        buy = sell = prices[0]
-        profit = 0
-        for cur in prices[1:]:  # 从第二个数字开始检查
-            if cur >= sell:  # 如果后面数值越来越大,则一直更新sell
-                sell = cur
-            else:  # 这时碰到第一个不是越来越大的数值
-                #  重点在这里,为什么要满足这个条件?
-                if sell - buy > fee and sell - cur > fee:  
-                    profit += sell - buy - fee
-                    buy = sell = cur
-                # 这里就是上面提到的如果b-a-fee<0,那么第一次交易根本没有存在的必要
-                # 相当于直接跳过b,变成a,c,d的问题
-                elif cur < buy:  # 走到这步,如果c<a,那么就单纯变成c,d的问题了
-                    buy = sell = cur
-        if sell - buy > fee:
-            profit += sell - buy - fee
-        return profit
+# class Solution:
+#     def maxProfit(self, prices: list, fee: int) -> int:
+#         if len(prices) < 2:
+#             return 0
+#         buy = sell = prices[0]
+#         profit = 0
+#         for cur in prices[1:]:  # 从第二个数字开始检查
+#             if cur >= sell:  # 如果后面数值越来越大,则一直更新sell
+#                 sell = cur
+#             else:  # 这时碰到第一个不是越来越大的数值
+#                 #  重点在这里,为什么要满足这个条件?
+#                 if sell - buy > fee and sell - cur > fee:  
+#                     profit += sell - buy - fee
+#                     buy = sell = cur
+#                 # 这里就是上面提到的如果b-a-fee<0,那么第一次交易根本没有存在的必要
+#                 # 相当于直接跳过b,变成a,c,d的问题
+#                 elif cur < buy:  # 走到这步,如果c<a,那么就单纯变成c,d的问题了
+#                     buy = sell = cur
+#         if sell - buy > fee:
+#             profit += sell - buy - fee
+#         return profit
 
 # 答案解法，思路同dp，相当于进行了优化
 # 我们维护两个变量 cash 和 hold，前者表示当我们不持有股票时的最大利润，后者表示当我们持有股票时的最大利润。
@@ -41,11 +41,27 @@ class Solution:
 #     def maxProfit(self, prices, fee):
 #         cash, hold = 0, -prices[0]
 #         for i in range(1, len(prices)):
-#             cash = max(cash, hold + prices[i] - fee)
-#             hold = max(hold, cash - prices[i])
+#             cash = max(cash, hold + prices[i] - fee)  # 这行没问题,max中的cash就是昨天的cash
+#             # 下面为什么可以这样写?考虑两种情况,如果上面cash就等于昨天的cash,那么当然可以
+#             # 如果上面的cash==hold+prices[i]-fee,也就是这个cash比昨天的cash还大! 
+#             # 这时候有趣的事发生了,即便事这个更大的数,下面这行max中的cash-prices[i]==hold-fee,一定比hold小!
+#             # 所以才可以不用原始的写法,也就是不用temp保留昨天的数据
+#             hold = max(hold, cash - prices[i])  
 #         return cash
 
-# 标准写法
+# 原始写法,方便理解
+# class Solution(object):
+#     def maxProfit(self, prices, fee):
+#         cash, hold = 0, -prices[0]
+#         temp_c = cash
+#         temp_h = hold
+#         for i in range(1, len(prices)):
+#             cash = max(temp_c, temp_h + prices[i] - fee)
+#             hold = max(temp_h, temp_c - prices[i])
+#             temp_c = cash
+#             temp_h = hold
+#         return cash
+
 # class Solution:
 #     def maxProfit(self, prices: List[int], fee: int) -> int:
 #         length = len(prices)
@@ -64,3 +80,4 @@ class Solution:
 #             max_num = max(max_num, dp[i][0])
 
 #         return max_num
+
